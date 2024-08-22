@@ -9,6 +9,11 @@ This is a generic tool that should work for any use case.
 Simply run the command with go: `go run main.go` or run it remotely through `go run github.com/mikkurogue/cube-type-extract/blob/master/main.go`
 It should then create a typescript file containing the string union types of each dimension and measure you have, prefixed with the cube name they are related to.
 
+## Requirements
+
+- Cubejs running on a local machine (hardcoded url is set to localhost:4000, which is the default)
+- Go installed on your machine
+
 ## Use case
 
 For us, its mostly to create dynamically typed queries and to have typechecking that we are using the valid dimensions and or measures for our dashboarding.
@@ -20,3 +25,7 @@ I'm planning on discussing internally with the team what property we would like 
 I'll then be updating and adding a flag to this tool to run the tool but fetching only the dimensions and measures with that specific property set to true.
 
 For now I'm thinking of making the property be called `extractable` but a nicer name would be welcome too.
+
+### Contributing
+
+If you have a cool feature, or want to fix a bug, feel free to submit a PR.
