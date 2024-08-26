@@ -18,7 +18,7 @@ var cubeNames string
 
 func main() {
 
-	rename := flag.Bool("r", false, "Rename the file type prefixes")
+	rename := flag.Bool("rename", false, "Rename the file type prefixes")
 
 	flag.Parse()
 

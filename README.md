@@ -26,6 +26,12 @@ It should then create a typescript file containing the string union types of eac
 
 Depending on the size of your cubejs cubes and the count of measures/dimensions, this tool should be finished within 1 second. So its "blazingly fast!!!!" but then written in Go
 
+### Flags:
+
+- To rename the prefixes of the generated types to not contain the cube name if wished, you can then run the command with the `rename` flag. That would be done by adding -rename=true
+- The rename flag will iterate over all the cubes it finds and then allows you to rename the cube so you can use different naming conventions.
+- Reason: we have multiple cubes with long names and product based prefixes, so we can now give people the ability to rename their types for the product.
+
 ## Requirements
 
 - Cubejs running on a local machine (hardcoded url is set to localhost:4000, which is the default)
