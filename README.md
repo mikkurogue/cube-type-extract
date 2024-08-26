@@ -6,7 +6,22 @@ This is a generic tool that should work for any use case.
 
 ## Usage
 
-Simply run the command with go: `go run main.go` or run it remotely through `go run github.com/mikkurogue/cube-type-extract/blob/master/main.go`
+Make sure you have alocal instance of CUbeJs running, and update your metadata for your dimensions and measures.
+
+Thsi tool will only extract and create a union type based on if your meta property in your schemas has the property `extractable: true`. E.g.:
+
+```
+userName: {
+    sql: (CUBE) => `${CUBE}.user_name`,
+    type: `string`,
+    meta: {
+      extractable: true,
+      // whatever other meta props you may have
+    },
+  },
+```
+
+Simply run the command with go: `go run main.go` or run it remotely through `go run github.com/mikkurogue/cube-type-extract/blob/master/main.go` (will create a binary thats built for all platforms at some point soon tm)
 It should then create a typescript file containing the string union types of each dimension and measure you have, prefixed with the cube name they are related to.
 
 Depending on the size of your cubejs cubes and the count of measures/dimensions, this tool should be finished within 1 second. So its "blazingly fast!!!!" but then written in Go
@@ -20,13 +35,6 @@ Depending on the size of your cubejs cubes and the count of measures/dimensions,
 
 For us, its mostly to create dynamically typed queries and to have typechecking that we are using the valid dimensions and or measures for our dashboarding.
 For you probably not much.
-
-## Planned
-
-I'm planning on discussing internally with the team what property we would like to add to our dimensions to try and make the union types be less bloaty.
-I'll then be updating and adding a flag to this tool to run the tool but fetching only the dimensions and measures with that specific property set to true.
-
-For now I'm thinking of making the property be called `extractable` but a nicer name would be welcome too.
 
 ### Contributing
 
