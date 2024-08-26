@@ -18,17 +18,19 @@ type CubeMetadata struct {
 }
 
 type Cube struct {
-	Name       string      `json:"name"`
-	Dimensions []Dimension `json:"dimensions"`
-	Measures   []Measure   `json:"measures"`
+	Name       string     `json:"name"`
+	Dimensions []FieldSet `json:"dimensions"`
+	Measures   []FieldSet `json:"measures"`
 }
 
-type Dimension struct {
-	Name string `json:"name"`
+// NOTE: Just doing this to test if we can filter dimensions and measures based on a meta prop
+type Meta struct {
+	Extractable bool `json:"Extractable"`
 }
 
-type Measure struct {
+type FieldSet struct {
 	Name string `json:"name"`
+	Meta Meta   `json:"meta"`
 }
 
 func main() {
@@ -55,21 +57,29 @@ func main() {
 
 		// Extract dimensions and measures without the Cube. prefix
 		for _, dimension := range cube.Dimensions {
-			dimensionName := extractName(dimension.Name)
-			dimensions = append(dimensions, fmt.Sprintf("'%s'", dimensionName))
+
+			if dimension.Meta.Extractable == true {
+				dimensionName := extractName(dimension.Name)
+				dimensions = append(dimensions, fmt.Sprintf("'%s'", dimensionName))
+			}
 		}
 		for _, measure := range cube.Measures {
-			measureName := extractName(measure.Name)
-			measures = append(measures, fmt.Sprintf("'%s'", measureName))
+			if measure.Meta.Extractable == true {
+
+				measureName := extractName(measure.Name)
+				measures = append(measures, fmt.Sprintf("'%s'", measureName))
+			}
 		}
 
-		// Generate TypeScript union types for this cube
-		cubeName := capitalize(cube.Name)
-		dimensionsType := fmt.Sprintf("export type %sDimensions = %s;", cubeName, joinUnion(dimensions))
-		measuresType := fmt.Sprintf("export type %sMeasures = %s;", cubeName, joinUnion(measures))
+		if len(dimensions) != 0 && len(measures) != 0 {
+			// Generate TypeScript union types for this cube
+			cubeName := capitalize(cube.Name)
+			dimensionsType := fmt.Sprintf("export type %sDimensions = %s;", cubeName, joinUnion(dimensions))
+			measuresType := fmt.Sprintf("export type %sMeasures = %s;", cubeName, joinUnion(measures))
+			// Append to the output
+			output.WriteString(fmt.Sprintf("%s\n\n%s\n\n", dimensionsType, measuresType))
 
-		// Append to the output
-		output.WriteString(fmt.Sprintf("%s\n\n%s\n\n", dimensionsType, measuresType))
+		}
 	}
 
 	// Write to a TypeScript file
