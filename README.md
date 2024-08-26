@@ -24,7 +24,9 @@ userName: {
 Simply run the command with go: `go run main.go` or run it remotely through `go run github.com/mikkurogue/cube-type-extract/blob/master/main.go` (will create a binary thats built for all platforms at some point soon tm)
 It should then create a typescript file containing the string union types of each dimension and measure you have, prefixed with the cube name they are related to.
 
-Depending on the size of your cubejs cubes and the count of measures/dimensions, this tool should be finished within 1 second. So its "blazingly fast!!!!" but then written in Go
+Depending on the size of your cubejs cubes and the count of measures/dimensions, this tool should be finished within 1 second. So its "blazingly fast!!!!" but then written in Go.
+
+If you are only using a binary then place the binary wherever you want and navigate to the binary using a terminal and execute it by using `./cube_type_extractor` or `./main` depending on if you downloaded the binary or built it from source.
 
 ### Supported input flags:
 
@@ -35,7 +37,7 @@ Depending on the size of your cubejs cubes and the count of measures/dimensions,
 ## Requirements
 
 - Cubejs running on a local machine (hardcoded url is set to localhost:4000, which is the default)
-- Go installed on your machine
+- Go installed on your machine (If running/building from source)
 
 ## Use case
 
