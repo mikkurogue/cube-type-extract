@@ -18,11 +18,14 @@ var cubeNames string
 
 func main() {
 
+	file := flag.String("file", "cubejs-types", "Give a file name without an extension")
 	rename := flag.Bool("rename", false, "Rename the file type prefixes")
 
 	flag.Parse()
 
 	var generator gen.Generator
+
+	generator.FileName = *file
 
 	generator.FetchMetadata()
 

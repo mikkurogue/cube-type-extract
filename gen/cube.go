@@ -14,6 +14,7 @@ const (
 )
 
 type Generator struct {
+	FileName  string
 	CubeCount int
 	Metadata  CubeMetadata
 }
@@ -97,7 +98,7 @@ func (g *Generator) IterateToGenerate() {
 	}
 
 	// Write to a TypeScript file
-	if err := os.WriteFile("cubejs-types.ts", []byte(output.String()), 0644); err != nil {
+	if err := os.WriteFile(g.FileName+".ts", []byte(output.String()), 0644); err != nil {
 		fmt.Println("Error writing TypeScript file:", err)
 		return
 	}
