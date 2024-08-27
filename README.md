@@ -32,7 +32,7 @@ If you are only using a binary then place the binary wherever you want and navig
 
 `-file="<FILENAME>"` Optional flag to rename the file to something you want. Do not provide a file extension as it always is a .ts file. If left empty will use the default name "cubejs-types"
 
-`-rename=<true/false>` Optional flag to rename each cube to provide a new Affix for the types. Default false.
+`-rename=<true/false>` Optional flag to rename each cube to provide a new Suffix for the types. Default false.
 
 ## Requirements
 
