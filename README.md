@@ -11,14 +11,16 @@ Make sure you have an instance of Cube running, and update your metadata for you
 Thsi tool will only extract and create a union type based on if your meta property in your schemas has the property `extractable: true`. E.g.:
 
 ```json
-userName: {
-    sql: (CUBE) => `${CUBE}.user_name`,
-    type: `string`,
-    meta: {
-      extractable: true,
-      // whatever other meta props you may have
+{
+    userName: {
+        sql: (CUBE) => `${CUBE}.user_name`,
+        type: `string`,
+        meta: {
+          extractable: true,
+          // whatever other meta props you may have
+        },
     },
-  },
+}
 ```
 
 If running for the first time on a new machine (or the config file is not present in the directory your running the binary from) then run the command `./main -cfg` to generate a default configuration file.
