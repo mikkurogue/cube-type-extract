@@ -1,12 +1,11 @@
 package main
 
 import (
-	"bufio"
+	"cube_type_gen/config"
 	"cube_type_gen/gen"
 	"flag"
-	"fmt"
+	"github.com/fatih/color"
 	"os"
-	"strings"
 )
 
 type Generator struct {
@@ -14,36 +13,48 @@ type Generator struct {
 	CubeNames []string
 }
 
-var cubeNames string
-
 func main() {
 
-	rename := flag.Bool("rename", false, "Rename the file type prefixes")
-	fileName := flag.String("filename", "cubejs-types", "Rename the file without a file extension")
-	outputDir := flag.String("o", "./", "Provide an output directory, default is current directory")
+	generateConfig := flag.Bool("cfg", true, "Generate a config. This is intedeted for first time use.")
 
 	flag.Parse()
 
+	cfgExists := config.Validate()
+	if !cfgExists && *generateConfig {
+		config.GenerateDefaultConfig()
+
+		color.HiGreen("Config has been generated, make your modifications and re-run the generator.")
+		os.Exit(0)
+	}
+
+	conf, err := config.Read()
+	if err != nil {
+		color.HiRed("Could not read file. ", err)
+		os.Exit(0)
+	}
+
+	// make sure the config is not just default barebones. need to make sure its done
+	if conf.Prefixes[0].Name == "Placeholder" {
+		color.Yellow("Adjust your configuration file to proceed. Re-run this tool once configuration is complete.")
+		os.Exit(0)
+	}
+
 	var generator gen.Generator
-
-	generator.FileName = *fileName
-
 	generator.FetchMetadata()
 
-	// check if the flag is set to true, then we start a form to rename the cube metadata
-	if *rename == true {
-		// map over the generator cube count and assign custom prefixes
-		for i := 0; i < generator.CubeCount; i++ {
-			reader := bufio.NewReader(os.Stdin)
-			fmt.Printf("Enter a prefix for the cube '%v': ", generator.Metadata.Cubes[i].Name)
-			text, _ := reader.ReadString('\n')
-			text = strings.TrimSuffix(text, "\n")
+	for i := 0; i < generator.CubeCount; i++ {
 
-			generator.Metadata.Cubes[i].Name = text
+		currentCubeName := generator.Metadata.Cubes[i].Name
+
+		for _, value := range conf.Prefixes {
+			if value.Name == currentCubeName {
+				generator.Metadata.Cubes[i].Name = value.Prefix
+				color.Cyan("Gave cube %v the prefix %v \n", currentCubeName, value.Prefix)
+			}
 		}
 	}
 
-	generator.IterateToGenerate(*outputDir)
+	generator.IterateToGenerate(conf.Output, conf.FileName)
 
 	// Kill the app when complete.
 	os.Exit(0)

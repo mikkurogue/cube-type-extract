@@ -21,20 +21,24 @@ userName: {
   },
 ```
 
-Simply run the command with go: `go run main.go` or run it remotely through `go run github.com/mikkurogue/cube-type-extract/blob/master/main.go` (will create a binary thats built for all platforms at some point soon tm)
-It should then create a typescript file containing the string union types of each dimension and measure you have, prefixed with the cube name they are related to.
+If running for the first time on a new machine (or the config file is not present in the directory your running the binary from) then run the command `./main -cfg` to generate a default configuration file.
+I recommend then editing the configuration file to your needs.
+
+Config fields:
+
+```
+output: string - the output directory you want to point your types to default is ./ (cwd)
+file_name: string - the filename WITHOUT file extension. Because we only generate a typescript file, the tool appends .ts to the end by itself
+prefixes: list of prefixes, each prefix is defined as such: name: string - the name of the cube that is known in metadata, prefix: string - the new prefix to give to the type.
+```
 
 Depending on the size of your cubejs cubes and the count of measures/dimensions, this tool should be finished within 1 second. So its "blazingly fast!!!!" but then written in Go.
 
 If you are only using a binary then place the binary wherever you want and navigate to the binary using a terminal and execute it by using `./cube_type_extractor` or `./main` depending on if you downloaded the binary or built it from source.
 
-### Supported input flags:
+#### Caveats
 
-`-filename="<FILENAME>"` Optional flag to rename the file to something you want. Do not provide a file extension as it always is a .ts file. If left empty will use the default name "cubejs-types"
-
-`-rename=<true/false>` Optional flag to rename each cube to provide a new Suffix for the types. Default false.
-
-`-o="<PATH TO DIRECTORY>"` Optional flag to determine the output directory, if you're not using the binary in the output dir then its probably an idea to use this flag.
+For now I have made the decision that we will ignore `error` cubes. Mostly because for us, we barely use the error cubes that come out of it. If it turns out to be that we need the error cube types then I will consider adding this.
 
 ## Requirements
 
@@ -43,8 +47,8 @@ If you are only using a binary then place the binary wherever you want and navig
 
 ## Use case
 
-For us, its mostly to create dynamically typed queries and to have typechecking that we are using the valid dimensions and or measures for our dashboarding.
-For you probably not much.
+For us, its mostly to create dynamically typed queries and to have typechecking that we are using the valid dimensions and or measures for our dashboarding using our own server action tooling for generic fetch methods.
+For you probably not much other than its a fun little go script.
 
 ### Contributing
 

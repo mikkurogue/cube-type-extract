@@ -6,8 +6,9 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 const (
@@ -15,7 +16,6 @@ const (
 )
 
 type Generator struct {
-	FileName  string
 	CubeCount int
 	Metadata  CubeMetadata
 }
@@ -44,13 +44,13 @@ func (g *Generator) FetchMetadata() {
 	// Fetch Cube.js metadata
 	resp, err := fetchCubejsMetadata()
 	if err != nil {
-		fmt.Println("Error fetching Cube.js metadata:", err)
+		color.Red("Error fetching Cube.js metadata:", err)
 		os.Exit(0)
 	}
 
 	// Parse the metadata JSON - Assign metadata to the pointer
 	if err := json.Unmarshal(resp, &g.Metadata); err != nil {
-		fmt.Println("Error parsing Cube.js metadata:", err)
+		color.Red("Error parsing Cube.js metadata:", err)
 		os.Exit(1)
 	}
 
@@ -59,7 +59,7 @@ func (g *Generator) FetchMetadata() {
 
 }
 
-func (g *Generator) IterateToGenerate(outputDir string) {
+func (g *Generator) IterateToGenerate(outputDir, filename string) {
 
 	// Prepare output for TypeScript file
 	var output strings.Builder
@@ -67,6 +67,13 @@ func (g *Generator) IterateToGenerate(outputDir string) {
 	var allMeasureTypes []string
 
 	for _, cube := range g.Metadata.Cubes {
+
+		if strings.Contains(strings.ToLower(cube.Name), "error") ||
+			strings.Contains(strings.ToLower(cube.Name), "errors") ||
+			cube.Name == "Errors" {
+			color.HiYellow("Skipping error cube: %v", cube.Name)
+		}
+
 		var dimensions []string
 		var measures []string
 
@@ -102,7 +109,9 @@ func (g *Generator) IterateToGenerate(outputDir string) {
 			allDimensionTypes = append(allDimensionTypes, dimensionsTypeName)
 			allMeasureTypes = append(allMeasureTypes, measuresTypeName)
 		} else {
-			fmt.Println(fmt.Sprintf("Could not generate union type for cube: %v . Missing extractable property for either dimensions and/or measures", cube.Name))
+			if !containsIgnoreCase(cube.Name, "error") {
+				color.Red("Could not generate union type for cube: %v, missing extractable property for either dimensions and/or measures in the schema.", cube.Name)
+			}
 		}
 	}
 
@@ -118,18 +127,12 @@ func (g *Generator) IterateToGenerate(outputDir string) {
 	}
 
 	//check if the output dir exists
-	dir := filepath.Join(outputDir)
-	err := os.MkdirAll(dir, os.ModePerm)
-	if err != nil {
-		fmt.Println("someting about directory mk all")
-	}
-
-	if err := os.WriteFile(outputDir+g.FileName+".ts", []byte(output.String()), 0644); err != nil {
-		fmt.Println("Error writing TypeScript file:", err)
+	if err := os.WriteFile(outputDir+filename+".ts", []byte(output.String()), 0644); err != nil {
+		color.Red("Error writing TypeScript file:", err)
 		return
 	}
 
-	fmt.Println(fmt.Sprintf("Generated %v.ts with Dimension and Measure union types for each Cube.", g.FileName))
+	color.Blue("Generated %v.ts with dimension and measure union types.", filename)
 
 }
 
@@ -167,4 +170,8 @@ func capitalize(str string) string {
 		return str
 	}
 	return strings.ToUpper(string(str[0])) + str[1:]
+}
+
+func containsIgnoreCase(str, substr string) bool {
+	return strings.Contains(strings.ToLower(str), substr)
 }
