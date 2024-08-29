@@ -12,12 +12,12 @@ Thsi tool will only extract and create a union type based on if your meta proper
 
 ```json
 {
-    userName: {
-        sql: (CUBE) => `${CUBE}.user_name`,
-        type: `string`,
-        meta: {
-          extractable: true,
-          // whatever other meta props you may have
+    "userName": {
+            "sql": (CUBE) => `${CUBE}.user_name`,
+            "type": `string`,
+            "meta": {
+            "extractable": true,
+            // whatever other meta props you may have
         },
     },
 }
