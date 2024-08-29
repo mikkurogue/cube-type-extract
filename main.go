@@ -50,7 +50,7 @@ func main() {
 	}
 
 	var generator gen.Generator
-	generator.FetchMetadata()
+	generator.FetchMetadata(conf.CubeUrl)
 
 	for i := 0; i < generator.CubeCount; i++ {
 

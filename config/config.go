@@ -7,6 +7,7 @@ import (
 )
 
 type Configuration struct {
+	CubeUrl  string   `json:"cube_url"`
 	Output   string   `json:"output"`
 	FileName string   `json:"file_name"`
 	Prefixes []Prefix `json:"prefixes"` // experimental try and see if we can pre-define our prefixes for the cube(s)
@@ -20,6 +21,7 @@ type Prefix struct {
 
 func GenerateDefaultConfig() {
 	config := Configuration{
+		CubeUrl:  "http://localhost:4000",
 		Output:   "./",
 		FileName: "cubejs-types",
 		Prefixes: []Prefix{

@@ -11,10 +11,6 @@ import (
 	"github.com/fatih/color"
 )
 
-const (
-	CUBEJS_API_URL = "http://localhost:4000/cubejs-api"
-)
-
 type Generator struct {
 	CubeCount int
 	Metadata  CubeMetadata
@@ -40,9 +36,9 @@ type FieldSet struct {
 	Meta Meta   `json:"meta"`
 }
 
-func (g *Generator) FetchMetadata() {
+func (g *Generator) FetchMetadata(cubeUrl string) {
 	// Fetch Cube.js metadata
-	resp, err := fetchCubejsMetadata()
+	resp, err := fetchCubejsMetadata(cubeUrl)
 	if err != nil {
 		color.Red("Error fetching Cube.js metadata:", err)
 		os.Exit(0)
@@ -134,9 +130,9 @@ func (g *Generator) Generate(outputDir, filename string) {
 
 }
 
-func fetchCubejsMetadata() ([]byte, error) {
+func fetchCubejsMetadata(cubeUrl string) ([]byte, error) {
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/v1/meta", CUBEJS_API_URL), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/v1/meta", cubeUrl), nil)
 	if err != nil {
 		return nil, err
 	}

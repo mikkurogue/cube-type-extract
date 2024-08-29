@@ -47,6 +47,10 @@ The configuration file should follow the structure outlined below:
 ```
 
 ## Fields
+    
+    cube_url:
+        Type: string
+        Description: The url for your cubejs api. Default is localhost:4000
 
     output:
         Type: string
@@ -79,7 +83,7 @@ For now I have made the decision that we will ignore `error` cubes. Mostly becau
 
 ## Requirements
 
-- [Cube](https://cube.dev/) running on a local machine (hardcoded url is set to localhost:4000, which is the default)
+- [Cube](https://cube.dev/). Recommended to use a local instance of Cube, configuration defaults to `http://localhost:4000` as this is the default. Your mileage may vary.
 - [Go](https://go.dev/) installed on your machine (If running/building from source)
 - You must edit your configuration file to your needs, otherwise it wont work with just the default configuration.
 
