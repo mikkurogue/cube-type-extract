@@ -79,8 +79,8 @@ For now I have made the decision that we will ignore `error` cubes. Mostly becau
 
 ## Requirements
 
-- Cubejs running on a local machine (hardcoded url is set to localhost:4000, which is the default)
-- Go installed on your machine (If running/building from source)
+- [Cube](https://cube.dev/) running on a local machine (hardcoded url is set to localhost:4000, which is the default)
+- [Go](https://go.dev/) installed on your machine (If running/building from source)
 - You must edit your configuration file to your needs, otherwise it wont work with just the default configuration.
 
 ## Use case
@@ -91,3 +91,5 @@ For you probably not much other than its a fun little go script.
 ### Contributing
 
 If you have a cool feature, or want to fix a bug, feel free to submit a PR.
+
+Feature requests are also possible, however as this is a side project I wont make many promises (unless I am already working on a feature for work and it fits the scope)
