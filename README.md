@@ -30,9 +30,11 @@ If you are only using a binary then place the binary wherever you want and navig
 
 ### Supported input flags:
 
-`-file="<FILENAME>"` Optional flag to rename the file to something you want. Do not provide a file extension as it always is a .ts file. If left empty will use the default name "cubejs-types"
+`-filename="<FILENAME>"` Optional flag to rename the file to something you want. Do not provide a file extension as it always is a .ts file. If left empty will use the default name "cubejs-types"
 
 `-rename=<true/false>` Optional flag to rename each cube to provide a new Suffix for the types. Default false.
+
+`-o="<PATH TO DIRECTORY>"` Optional flag to determine the output directory, if you're not using the binary in the output dir then its probably an idea to use this flag.
 
 ## Requirements
 

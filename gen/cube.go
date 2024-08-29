@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -44,13 +45,13 @@ func (g *Generator) FetchMetadata() {
 	resp, err := fetchCubejsMetadata()
 	if err != nil {
 		fmt.Println("Error fetching Cube.js metadata:", err)
-		return
+		os.Exit(0)
 	}
 
 	// Parse the metadata JSON - Assign metadata to the pointer
 	if err := json.Unmarshal(resp, &g.Metadata); err != nil {
 		fmt.Println("Error parsing Cube.js metadata:", err)
-		return
+		os.Exit(1)
 	}
 
 	// Also set the cube count here from metadata.
@@ -58,7 +59,7 @@ func (g *Generator) FetchMetadata() {
 
 }
 
-func (g *Generator) IterateToGenerate() {
+func (g *Generator) IterateToGenerate(outputDir string) {
 
 	// Prepare output for TypeScript file
 	var output strings.Builder
@@ -115,8 +116,15 @@ func (g *Generator) IterateToGenerate() {
 		allMeasuresType := fmt.Sprintf("export type AllMeasures = %s;", joinUnion(allMeasureTypes))
 		output.WriteString(fmt.Sprintf("%s\n\n", allMeasuresType))
 	}
-	// Write to a TypeScript file
-	if err := os.WriteFile(g.FileName+".ts", []byte(output.String()), 0644); err != nil {
+
+	//check if the output dir exists
+	dir := filepath.Join(outputDir)
+	err := os.MkdirAll(dir, os.ModePerm)
+	if err != nil {
+		fmt.Println("someting about directory mk all")
+	}
+
+	if err := os.WriteFile(outputDir+g.FileName+".ts", []byte(output.String()), 0644); err != nil {
 		fmt.Println("Error writing TypeScript file:", err)
 		return
 	}

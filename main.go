@@ -20,6 +20,7 @@ func main() {
 
 	rename := flag.Bool("rename", false, "Rename the file type prefixes")
 	fileName := flag.String("filename", "cubejs-types", "Rename the file without a file extension")
+	outputDir := flag.String("o", "./", "Provide an output directory, default is current directory")
 
 	flag.Parse()
 
@@ -42,7 +43,7 @@ func main() {
 		}
 	}
 
-	generator.IterateToGenerate()
+	generator.IterateToGenerate(*outputDir)
 
 	// Kill the app when complete.
 	os.Exit(0)
