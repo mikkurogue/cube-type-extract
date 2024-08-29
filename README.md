@@ -35,6 +35,7 @@ The configuration file should follow the structure outlined below:
 
 ```json
 {
+  "cube_url": "http://localhost:4000",
   "output": "./",
   "file_name": "cubejs-types",
   "prefixes": [
