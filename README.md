@@ -6,11 +6,11 @@ This is a generic tool that should work for any use case.
 
 ## Usage
 
-Make sure you have alocal instance of CUbeJs running, and update your metadata for your dimensions and measures.
+Make sure you have an instance of Cube running, and update your metadata for your dimensions and measures.
 
 Thsi tool will only extract and create a union type based on if your meta property in your schemas has the property `extractable: true`. E.g.:
 
-```
+```json
 userName: {
     sql: (CUBE) => `${CUBE}.user_name`,
     type: `string`,
