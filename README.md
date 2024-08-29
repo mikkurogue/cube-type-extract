@@ -24,13 +24,50 @@ userName: {
 If running for the first time on a new machine (or the config file is not present in the directory your running the binary from) then run the command `./main -cfg` to generate a default configuration file.
 I recommend then editing the configuration file to your needs.
 
-Config fields:
 
+# Configuration File for Type Generator CLI Tool
+
+This document provides an overview of the required configuration for the Type Generator CLI tool. The configuration is defined in a JSON format and is used to specify the output location, file name, and prefixes for the generated types.
+
+## Configuration Structure
+
+The configuration file should follow the structure outlined below:
+
+```json
+{
+  "output": "./",
+  "file_name": "cubejs-types",
+  "prefixes": [
+    {
+      "name": "Placeholder",
+      "prefix": "Main"
+    }
+  ]
+}
 ```
-output: string - the output directory you want to point your types to default is ./ (cwd)
-file_name: string - the filename WITHOUT file extension. Because we only generate a typescript file, the tool appends .ts to the end by itself
-prefixes: list of prefixes, each prefix is defined as such: name: string - the name of the cube that is known in metadata, prefix: string - the new prefix to give to the type.
-```
+
+## Fields
+
+    output:
+        Type: string
+        Description: Specifies the output directory where the generated type file will be saved. In this example, "./" indicates that the file will be saved in the current working directory.
+
+    file_name:
+        Type: string
+        Description: Defines the name of the generated type file. In this example, the file will be named "cubejs-types".
+
+    prefixes:
+
+        Type: array of objects with keys name and prefix (strings) 
+
+        Description: A list of prefix configurations that map entities to the prefixes you want to apply in the generated type file. Each entry in the list is an object with the following fields:
+            name:
+                Type: string
+                Description: The name of the entity for which the types are being generated. In the example, "Placeholder" is used as a placeholder entity name.
+            prefix:
+                Type: string
+                Description: The prefix to be applied to the entity's types in the generated file. In this example, "Main" is the prefix that will replace the entity name in the type definitions.
+
 
 Depending on the size of your cubejs cubes and the count of measures/dimensions, this tool should be finished within 1 second. So its "blazingly fast!!!!" but then written in Go.
 
