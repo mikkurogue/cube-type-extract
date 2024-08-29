@@ -15,7 +15,7 @@ type Generator struct {
 
 func main() {
 
-	generateConfig := flag.Bool("cfg", true, "Generate a config. This is intedeted for first time use.")
+	generateConfig := flag.Bool("cfg", true, "Generate a config. This is generated at first time. Make sure to adjust configuration!")
 
 	flag.Parse()
 
@@ -27,9 +27,14 @@ func main() {
 		os.Exit(0)
 	}
 
+	if cfgExists && *generateConfig {
+		color.Magenta("Configuration file has been reset, make sure to apply your necessary settings.")
+		os.Exit(1)
+	}
+
 	conf, err := config.Read()
 	if err != nil {
-		color.HiRed("Could not read file. ", err)
+		color.HiRed("Could not read or find configuration file. ", err)
 		os.Exit(0)
 	}
 
@@ -37,6 +42,11 @@ func main() {
 	if conf.Prefixes[0].Name == "Placeholder" {
 		color.Yellow("Adjust your configuration file to proceed. Re-run this tool once configuration is complete.")
 		os.Exit(0)
+	}
+
+	if len(conf.Prefixes) == 0 {
+		color.HiRed("No prefix list found, are you missing the configuration? Run the generator with -cfg to generate a new configuration file")
+		os.Exit(1)
 	}
 
 	var generator gen.Generator
@@ -54,7 +64,7 @@ func main() {
 		}
 	}
 
-	generator.IterateToGenerate(conf.Output, conf.FileName)
+	generator.Generate(conf.Output, conf.FileName)
 
 	// Kill the app when complete.
 	os.Exit(0)

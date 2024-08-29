@@ -59,7 +59,7 @@ func (g *Generator) FetchMetadata() {
 
 }
 
-func (g *Generator) IterateToGenerate(outputDir, filename string) {
+func (g *Generator) Generate(outputDir, filename string) {
 
 	// Prepare output for TypeScript file
 	var output strings.Builder
@@ -68,9 +68,7 @@ func (g *Generator) IterateToGenerate(outputDir, filename string) {
 
 	for _, cube := range g.Metadata.Cubes {
 
-		if strings.Contains(strings.ToLower(cube.Name), "error") ||
-			strings.Contains(strings.ToLower(cube.Name), "errors") ||
-			cube.Name == "Errors" {
+		if containsIgnoreCase(cube.Name, "error") {
 			color.HiYellow("Skipping error cube: %v", cube.Name)
 		}
 
