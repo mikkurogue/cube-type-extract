@@ -44,6 +44,7 @@ For now I have made the decision that we will ignore `error` cubes. Mostly becau
 
 - Cubejs running on a local machine (hardcoded url is set to localhost:4000, which is the default)
 - Go installed on your machine (If running/building from source)
+- You must edit your configuration file to your needs, otherwise it wont work with just the default configuration.
 
 ## Use case
 
