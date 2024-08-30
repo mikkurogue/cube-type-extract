@@ -2,8 +2,9 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
+
+	"github.com/fatih/color"
 )
 
 type Configuration struct {
@@ -34,18 +35,18 @@ func GenerateDefaultConfig() {
 
 	jsonData, err := json.MarshalIndent(config, "", " ")
 	if err != nil {
-		fmt.Println("Could not marshal config file:", err)
+		color.Red("Could not marshal config file:", err)
 		os.Exit(0)
 	}
 
 	filename := "type-gen-config.json"
 	err = os.WriteFile(filename, jsonData, 0644)
 	if err != nil {
-		fmt.Println("Could not write to file: ", err)
+		color.Red("Could not write to file: ", err)
 		os.Exit(0)
 	}
 
-	fmt.Println("Successfully created the default configuration file")
+	color.Green("Successfully created the default configuration file")
 }
 
 func Validate() bool {

@@ -127,7 +127,6 @@ func (g *Generator) Generate(outputDir, filename string) {
 	}
 
 	color.Blue("Generated %v.ts with dimension and measure union types.", filename)
-
 }
 
 func fetchCubejsMetadata(cubeUrl string) ([]byte, error) {
