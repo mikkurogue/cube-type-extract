@@ -26,7 +26,8 @@ func main() {
 	}
 
 	if cfgExists && *generateConfig {
-		color.Magenta("Configuration file has been reset, make sure to apply your necessary settings.")
+		config.GenerateDefaultConfig()
+		color.Magenta("Configuration file has been reset to default, make sure to apply your necessary settings.")
 		os.Exit(1)
 	}
 
