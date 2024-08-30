@@ -21,7 +21,7 @@ type Prefix struct {
 
 func GenerateDefaultConfig() {
 	config := Configuration{
-		CubeUrl:  "http://localhost:4000",
+		CubeUrl:  "http://localhost:4000/cubejs-api",
 		Output:   "./",
 		FileName: "cubejs-types",
 		Prefixes: []Prefix{

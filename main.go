@@ -4,8 +4,9 @@ import (
 	"cube_type_gen/config"
 	"cube_type_gen/gen"
 	"flag"
-	"github.com/fatih/color"
 	"os"
+
+	"github.com/fatih/color"
 )
 
 type Generator struct {
@@ -15,12 +16,12 @@ type Generator struct {
 
 func main() {
 
-	generateConfig := flag.Bool("cfg", true, "Generate a config. This is generated at first time. Make sure to adjust configuration!")
+	generateConfig := flag.Bool("cfg", false, "Generate a config. This is generated at first time. Make sure to adjust configuration!")
 
 	flag.Parse()
 
 	cfgExists := config.Validate()
-	if !cfgExists && *generateConfig {
+	if !cfgExists {
 		config.GenerateDefaultConfig()
 
 		color.HiGreen("Config has been generated, make your modifications and re-run the generator.")
