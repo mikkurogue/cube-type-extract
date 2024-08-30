@@ -4,24 +4,21 @@ import (
 	"cube_type_gen/config"
 	"cube_type_gen/gen"
 	"flag"
+	"fmt"
 	"os"
 
+	"github.com/charmbracelet/huh/spinner"
 	"github.com/fatih/color"
 )
 
-type Generator struct {
-	CubeCount int
-	CubeNames []string
-}
-
 func main() {
-
 	generateConfig := flag.Bool("cfg", false, "Generate a config. This is generated at first time. Make sure to adjust configuration!")
 
 	flag.Parse()
 
 	cfgExists := config.Validate()
 	if !cfgExists {
+		spinner.New().Title("Generating configuration file.").Run()
 		config.GenerateDefaultConfig()
 
 		color.HiGreen("Config has been generated, make your modifications and re-run the generator.")
@@ -53,12 +50,14 @@ func main() {
 	var generator gen.Generator
 	generator.FetchMetadata(conf.CubeUrl)
 
-	for i := 0; i < generator.CubeCount; i++ {
+	spinner.New().Title(fmt.Sprintf("Mapping cubes to prefixes... \n")).Run()
 
+	for i := 0; i < generator.CubeCount; i++ {
 		currentCubeName := generator.Metadata.Cubes[i].Name
 
 		for _, value := range conf.Prefixes {
 			if value.Name == currentCubeName {
+
 				generator.Metadata.Cubes[i].Name = value.Prefix
 				color.Cyan("Gave cube %v the prefix %v \n", currentCubeName, value.Prefix)
 			}
