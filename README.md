@@ -26,7 +26,6 @@ Thsi tool will only extract and create a union type based on if your meta proper
 If running for the first time on a new machine (or the config file is not present in the directory your running the binary from) then run the command `./main -cfg` to generate a default configuration file.
 I recommend then editing the configuration file to your needs.
 
-
 # Configuration File for Type Generator CLI Tool
 
 This document provides an overview of the required configuration for the Type Generator CLI tool. The configuration is defined in a JSON format and is used to specify the output location, file name, and prefixes for the generated types.
@@ -50,7 +49,7 @@ The configuration file should follow the structure outlined below:
 ```
 
 ## Fields
-    
+
     cube_url:
         Type: string
         Description: The url for your cubejs api. Default is localhost:4000
@@ -65,7 +64,7 @@ The configuration file should follow the structure outlined below:
 
     prefixes:
 
-        Type: array of objects with keys name and prefix (strings) 
+        Type: array of objects with keys name and prefix (strings)
 
         Description: A list of prefix configurations that map entities to the prefixes you want to apply in the generated type file. Each entry in the list is an object with the following fields:
             name:
@@ -74,7 +73,6 @@ The configuration file should follow the structure outlined below:
             prefix:
                 Type: string
                 Description: The prefix to be applied to the entity's types in the generated file. In this example, "Main" is the prefix that will replace the entity name in the type definitions.
-
 
 Depending on the size of your cubejs cubes and the count of measures/dimensions, this tool should be finished within 1 second. So its "blazingly fast!!!!" but then written in Go.
 
@@ -86,7 +84,7 @@ For now I have made the decision that we will ignore `error` cubes. Mostly becau
 
 ## Requirements
 
-- [Cube](https://cube.dev/). Recommended to use a local instance of Cube, configuration defaults to `http://localhost:4000` as this is the default. Your mileage may vary.
+- [Cube](https://cube.dev/). Recommended to use a local instance of Cube, configuration defaults to `http://localhost:4000` as this is the default. Your mileage may vary due to authentication requirements on deployed environments. We do not yet support or provide a way to add auth tokens.
 - [Go](https://go.dev/) installed on your machine (If running/building from source)
 - You must edit your configuration file to your needs, otherwise it wont work with just the default configuration.
 
