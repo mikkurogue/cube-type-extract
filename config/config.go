@@ -18,6 +18,7 @@ func GenerateDefaultConfig() {
 				Prefix: "Main",        // This is just something, make sure to explain to users that they should use the -cfg flag before using and edit the cf
 			},
 		},
+		Ignore: []string{"Errors"},
 	}
 
 	jsonData, err := json.MarshalIndent(config, "", " ")
