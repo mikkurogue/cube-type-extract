@@ -44,7 +44,8 @@ The configuration file should follow the structure outlined below:
       "name": "Placeholder",
       "prefix": "Main"
     }
-  ]
+  ],
+  "ignore_error_cube": true
 }
 ```
 

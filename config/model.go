@@ -5,7 +5,7 @@ type Configuration struct {
 	Output           string   `json:"output"`
 	FileName         string   `json:"file_name"`
 	Prefixes         []Prefix `json:"prefixes"` // experimental try and see if we can pre-define our prefixes for the cube(s)
-	IgnoreErrorCubes bool     `json:"ignore"`
+	IgnoreErrorCubes bool     `json:"ignore_error_cube"`
 }
 
 // the name prop is the current name, the prefix is the new name
