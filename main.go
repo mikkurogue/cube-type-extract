@@ -65,7 +65,7 @@ func main() {
 		}
 	}
 
-	generator.Generate(conf.Output, conf.FileName)
+	generator.Generate(conf.Output, conf.FileName, conf.IgnoreErrorCubes)
 
 	// Kill the app when complete.
 	os.Exit(0)
